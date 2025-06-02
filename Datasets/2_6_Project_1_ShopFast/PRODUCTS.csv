@@ -1,0 +1,5 @@
+product_id,product_name,category,launch_date,stock_quantity
+1,Pen Drive,Electronics,2022-01-01,100
+2,Bluetooth Speaker,Electronics,2022-03-01,50
+3,Wireless Mouse,Electronics,2022-05-01,75
+4,Notebook,Stationery,2022-07-01,200

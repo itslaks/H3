@@ -1,0 +1,6 @@
+order_item_id,order_id,product_id,quantity,price_per_unit
+1,101,1,2,50.25
+2,102,2,1,200.0
+3,103,1,1,175.0
+4,104,3,3,100.0
+5,105,4,1,120.0
