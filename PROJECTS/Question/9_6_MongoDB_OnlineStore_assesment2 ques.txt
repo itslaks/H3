@@ -1,0 +1,65 @@
+
+📦 Scenario: Online Store Order Management
+
+You are hired by an e-commerce platform to design a MongoDB schema and write queries for managing orders placed by customers. Each order contains customer details, order date, shipping information, payment status, and a list of ordered items. You are working on the `orders` collection.
+
+Sample document structure:
+{
+  "order_id": "ORD1001",
+  "order_date": "2024-06-01",
+  "customer": {
+    "name": "Deepa Roy",
+    "email": "deepa@example.com",
+    "phone": "9876543210"
+  },
+  "shipping_address": {
+    "street": "123 Green Park",
+    "city": "Mumbai",
+    "state": "MH",
+    "pincode": "400001"
+  },
+  "items": [
+    { "product": "Wireless Mouse", "price": 599, "quantity": 2 },
+    { "product": "Keyboard", "price": 899, "quantity": 1 }
+  ],
+  "total_amount": 2097,
+  "payment_status": "Paid",
+  "delivery_status": "Delivered"
+}
+
+🧩 Problem Statement and Tasks
+
+Q1. Insert 5 different orders
+- Each with a different customer, shipping city, item list, and payment/delivery status.
+
+Q2. Find all orders where payment_status is "Paid" but delivery_status is not "Delivered"
+- These are pending deliveries.
+
+Q3. List all orders that contain at least one product priced more than 1000
+- Use dot notation and array condition.
+
+Q4. Get a list of orders shipped to “Mumbai” or “Delhi” sorted by most recent date
+- Return only order_id, city, and order_date.
+
+Q5. Group orders by payment_status and count how many orders fall under each category
+- Use aggregation and $group.
+
+Q6. Calculate the total revenue (sum of total_amount) from all "Delivered" orders
+- Use aggregation with $match and $sum.
+
+Q7. Add a new field "priority": "High" to all orders that have more than 3 items
+- Use $size and $addFields in an updateMany operation.
+
+Q8. Count how many times each product was ordered (regardless of order)
+- Unwind the items array, group by product name, and sum the quantities.
+
+Q9. Add a new item to an existing order (e.g., add "USB Cable" to order_id ORD1001)
+- Use $push.
+
+Q10. Rename field "phone" inside customer object to "mobile_number" across all documents
+- Use $rename inside nested object.
+
+🛠️ Bonus Task
+
+Q11. Create an index on the customer email to speed up lookups.
+Q12. Export the data using `mongoexport` for reporting purposes.

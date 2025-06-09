@@ -1,0 +1,216 @@
+C:\Users\sjlak>mongosh
+Current Mongosh Log ID: 68467319e8f1373ca56c4bcf
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1
+Using MongoDB:          8.0.9
+Using Mongosh:          2.5.1
+mongosh 2.5.2 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-06-09T08:55:02.820+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use students2
+switched to db students2
+students2> db.students.insertMany([
+...   {
+...     name: "Amit Kumar",
+...     age: 17,
+...     gender: "Male",
+...     grade: "11th",
+...     subjects: ["Math", "Physics", "English"],
+...     marks: { Math: 82, Physics: 91, English: 75 },
+...     address: { city: "Delhi", pincode: "110001" }
+...   },
+...   {
+...     name: "Sneha Verma",
+...     age: 16,
+...     gender: "Female",
+...     grade: "10th",
+...     subjects: ["Biology", "Chemistry", "English"],
+...     marks: { Biology: 78, Chemistry: 88, English: 92 },
+...     address: { city: "Mumbai", pincode: "400001" }
+...   },
+...   {
+...     name: "Rahul Singh",
+...     age: 18,
+...     gender: "Male",
+...     grade: "12th",
+...     subjects: ["Math", "Computer", "Physics"],
+...     marks: { Math: 95, Computer: 89, Physics: 93 },
+...     address: { city: "Delhi", pincode: "110002" }
+...   },
+...   {
+...     name: "Anjali Mehra",
+...     age: 17,
+...     gender: "Female",
+...     grade: "11th",
+...     subjects: ["Math", "English", "History"],
+...     marks: { Math: 39, English: 42, History: 78 },
+...     address: { city: "Bangalore", pincode: "560001" }
+...   },
+...   {
+...     name: "Karan Patel",
+...     age: 15,
+...     gender: "Male",
+...     grade: "9th",
+...     subjects: ["Science", "English", "Math"],
+...     marks: { Science: 65, English: 38, Math: 41 },
+...     address: { city: "Ahmedabad", pincode: "380001" }
+...   }
+... ])
+...
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6846732de8f1373ca56c4bd0'),
+    '1': ObjectId('6846732de8f1373ca56c4bd1'),
+    '2': ObjectId('6846732de8f1373ca56c4bd2'),
+    '3': ObjectId('6846732de8f1373ca56c4bd3'),
+    '4': ObjectId('6846732de8f1373ca56c4bd4')
+  }
+}
+students2> db.students.find(
+...   { subjects: "Math" },
+...   { _id: 0, name: 1, grade: 1, subjects: 1 }
+... )
+...
+[
+  {
+    name: 'Amit Kumar',
+    grade: '11th',
+    subjects: [ 'Math', 'Physics', 'English' ]
+  },
+  {
+    name: 'Rahul Singh',
+    grade: '12th',
+    subjects: [ 'Math', 'Computer', 'Physics' ]
+  },
+  {
+    name: 'Anjali Mehra',
+    grade: '11th',
+    subjects: [ 'Math', 'English', 'History' ]
+  },
+  {
+    name: 'Karan Patel',
+    grade: '9th',
+    subjects: [ 'Science', 'English', 'Math' ]
+  }
+]
+students2> db.students.find(
+...   {
+...     "address.city": "Delhi",
+...     "marks.Physics": { $gt: 85 }
+...   },
+...   {
+...     _id: 0,
+...     name: 1,
+...     marks: 1,
+...     "address.city": 1
+...   }
+... )
+...
+[
+  {
+    name: 'Amit Kumar',
+    marks: { Math: 82, Physics: 91, English: 75 },
+    address: { city: 'Delhi' }
+  },
+  {
+    name: 'Rahul Singh',
+    marks: { Math: 95, Computer: 89, Physics: 93 },
+    address: { city: 'Delhi' }
+  }
+]
+students2> db.students.find(
+...   { "marks.English": { $exists: true } },
+...   { _id: 0, name: 1, subjects: 1, marks: 1 }
+... ).sort({ "marks.English": -1 }).limit(3)
+...
+[
+  {
+    name: 'Sneha Verma',
+    subjects: [ 'Biology', 'Chemistry', 'English' ],
+    marks: { Biology: 78, Chemistry: 88, English: 92 }
+  },
+  {
+    name: 'Amit Kumar',
+    subjects: [ 'Math', 'Physics', 'English' ],
+    marks: { Math: 82, Physics: 91, English: 75 }
+  },
+  {
+    name: 'Anjali Mehra',
+    subjects: [ 'Math', 'English', 'History' ],
+    marks: { Math: 39, English: 42, History: 78 }
+  }
+]
+students2> db.students.aggregate([
+...   {
+...     $group: {
+...       _id: "$address.city",
+...       total_students: { $sum: 1 }
+...     }
+...   }
+... ])
+...
+[
+  { _id: 'Delhi', total_students: 2 },
+  { _id: 'Ahmedabad', total_students: 1 },
+  { _id: 'Mumbai', total_students: 1 },
+  { _id: 'Bangalore', total_students: 1 }
+]
+students2> db.students.updateMany(
+...   {
+...     $or: [
+...       { "marks.Math": { $lt: 40 } },
+...       { "marks.English": { $lt: 40 } },
+...       { "marks.Physics": { $lt: 40 } },
+...       { "marks.Computer": { $lt: 40 } },
+...       { "marks.Chemistry": { $lt: 40 } },
+...       { "marks.Biology": { $lt: 40 } },
+...       { "marks.Science": { $lt: 40 } },
+...       { "marks.History": { $lt: 40 } }
+...     ]
+...   },
+...   { $set: { status: "Needs Improvement" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+students2> db.students.aggregate([
+...   {
+...     $group: {
+...       _id: null,
+...       avgMath: { $avg: "$marks.Math" },
+...       avgPhysics: { $avg: "$marks.Physics" },
+...       avgEnglish: { $avg: "$marks.English" },
+...       avgComputer: { $avg: "$marks.Computer" },
+...       avgBiology: { $avg: "$marks.Biology" },
+...       avgChemistry: { $avg: "$marks.Chemistry" },
+...       avgScience: { $avg: "$marks.Science" },
+...       avgHistory: { $avg: "$marks.History" }
+...     }
+...   }
+... ])
+...
+[
+  {
+    _id: null,
+    avgMath: 64.25,
+    avgPhysics: 92,
+    avgEnglish: 61.75,
+    avgComputer: 89,
+    avgBiology: 78,
+    avgChemistry: 88,
+    avgScience: 65,
+    avgHistory: 78
+  }
+]
+students2>

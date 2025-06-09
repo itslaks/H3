@@ -1,0 +1,420 @@
+Microsoft Windows [Version 10.0.26100.4202]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\sjlak>mongosh
+Current Mongosh Log ID: 68469f417bed2b6f116c4bcf
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1
+Using MongoDB:          8.0.9
+Using Mongosh:          2.5.1
+mongosh 2.5.2 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-06-09T13:47:51.124+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use OnlineStore
+switched to db OnlineStore
+OnlineStore> db.OnlineStore.insertOne{
+...   "order_id": "ORD1001",
+...   "order_date": "2024-06-01",
+
+OnlineStore> db.orders.insertMany([
+...   {
+...     order_id: "ORD1001",
+...     order_date: "2024-06-01",
+...     customer: { name: "Deepa Roy", email: "deepa@example.com", phone: "9876543210" },
+...     shipping_address: { street: "123 Green Park", city: "Mumbai", state: "MH", pincode: "400001" },
+...     items: [
+...       { product: "Wireless Mouse", price: 599, quantity: 2 },
+...       { product: "Keyboard", price: 899, quantity: 1 }
+...     ],
+...     total_amount: 2097,
+...     payment_status: "Paid",
+...     delivery_status: "Delivered"
+...   },
+...   {
+...     order_id: "ORD1002",
+...     order_date: "2024-06-03",
+...     customer: { name: "Arjun Mehta", email: "arjun@example.com", phone: "9998887777" },
+...     shipping_address: { street: "45 Sector 9", city: "Delhi", state: "DL", pincode: "110001" },
+...     items: [
+...       { product: "Laptop Bag", price: 1299, quantity: 1 }
+...     ],
+...     total_amount: 1299,
+...     payment_status: "Paid",
+...     delivery_status: "Shipped"
+...   },
+...   {
+...     order_id: "ORD1003",
+...     order_date: "2024-06-04",
+...     customer: { name: "Neha Sharma", email: "neha@example.com", phone: "8887776666" },
+...     shipping_address: { street: "78 Hill View", city: "Chennai", state: "TN", pincode: "600001" },
+...     items: [
+...       { product: "Monitor", price: 10999, quantity: 1 }
+...     ],
+...     total_amount: 10999,
+...     payment_status: "Pending",
+...     delivery_status: "Not Shipped"
+...   },
+...   {
+...     order_id: "ORD1004",
+...     order_date: "2024-06-05",
+...     customer: { name: "Suresh Babu", email: "suresh@example.com", phone: "7776665555" },
+...     shipping_address: { street: "Plot 22", city: "Hyderabad", state: "TS", pincode: "500001" },
+...     items: [
+...       { product: "Pen Drive", price: 399, quantity: 3 },
+...       { product: "Notebook", price: 99, quantity: 5 }
+...     ],
+...     total_amount: 1392,
+...     payment_status: "Paid",
+...     delivery_status: "Processing"
+...   },
+...   {
+...     order_id: "ORD1005",
+...     order_date: "2024-06-06",
+...     customer: { name: "Meena Das", email: "meena@example.com", phone: "6665554444" },
+...     shipping_address: { street: "Lake Road", city: "Delhi", state: "DL", pincode: "110002" },
+...     items: [
+...       { product: "Desk Lamp", price: 799, quantity: 1 },
+...       { product: "Chair", price: 2499, quantity: 1 },
+...       { product: "Table", price: 3499, quantity: 1 }
+...     ],
+...     total_amount: 6797,
+...     payment_status: "Paid",
+...     delivery_status: "Delivered"
+...   }
+... ])
+...
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6846a0717bed2b6f116c4bd0'),
+    '1': ObjectId('6846a0717bed2b6f116c4bd1'),
+    '2': ObjectId('6846a0717bed2b6f116c4bd2'),
+    '3': ObjectId('6846a0717bed2b6f116c4bd3'),
+    '4': ObjectId('6846a0717bed2b6f116c4bd4')
+  }
+}
+OnlineStore> db.orders.find({
+...   payment_status: "Paid",
+...   delivery_status: { $ne: "Delivered" }
+... })
+...
+[
+  {
+    _id: ObjectId('6846a0717bed2b6f116c4bd1'),
+    order_id: 'ORD1002',
+    order_date: '2024-06-03',
+    customer: {
+      name: 'Arjun Mehta',
+      email: 'arjun@example.com',
+      phone: '9998887777'
+    },
+    shipping_address: {
+      street: '45 Sector 9',
+      city: 'Delhi',
+      state: 'DL',
+      pincode: '110001'
+    },
+    items: [ { product: 'Laptop Bag', price: 1299, quantity: 1 } ],
+    total_amount: 1299,
+    payment_status: 'Paid',
+    delivery_status: 'Shipped'
+  },
+  {
+    _id: ObjectId('6846a0717bed2b6f116c4bd3'),
+    order_id: 'ORD1004',
+    order_date: '2024-06-05',
+    customer: {
+      name: 'Suresh Babu',
+      email: 'suresh@example.com',
+      phone: '7776665555'
+    },
+    shipping_address: {
+      street: 'Plot 22',
+      city: 'Hyderabad',
+      state: 'TS',
+      pincode: '500001'
+    },
+    items: [
+      { product: 'Pen Drive', price: 399, quantity: 3 },
+      { product: 'Notebook', price: 99, quantity: 5 }
+    ],
+    total_amount: 1392,
+    payment_status: 'Paid',
+    delivery_status: 'Processing'
+  }
+]
+OnlineStore> db.orders.find({
+...   "items.price": { $gt: 1000 }
+... })
+...
+[
+  {
+    _id: ObjectId('6846a0717bed2b6f116c4bd1'),
+    order_id: 'ORD1002',
+    order_date: '2024-06-03',
+    customer: {
+      name: 'Arjun Mehta',
+      email: 'arjun@example.com',
+      phone: '9998887777'
+    },
+    shipping_address: {
+      street: '45 Sector 9',
+      city: 'Delhi',
+      state: 'DL',
+      pincode: '110001'
+    },
+    items: [ { product: 'Laptop Bag', price: 1299, quantity: 1 } ],
+    total_amount: 1299,
+    payment_status: 'Paid',
+    delivery_status: 'Shipped'
+  },
+  {
+    _id: ObjectId('6846a0717bed2b6f116c4bd2'),
+    order_id: 'ORD1003',
+    order_date: '2024-06-04',
+    customer: {
+      name: 'Neha Sharma',
+      email: 'neha@example.com',
+      phone: '8887776666'
+    },
+    shipping_address: {
+      street: '78 Hill View',
+      city: 'Chennai',
+      state: 'TN',
+      pincode: '600001'
+    },
+    items: [ { product: 'Monitor', price: 10999, quantity: 1 } ],
+    total_amount: 10999,
+    payment_status: 'Pending',
+    delivery_status: 'Not Shipped'
+  },
+  {
+    _id: ObjectId('6846a0717bed2b6f116c4bd4'),
+    order_id: 'ORD1005',
+    order_date: '2024-06-06',
+    customer: {
+      name: 'Meena Das',
+      email: 'meena@example.com',
+      phone: '6665554444'
+    },
+    shipping_address: {
+      street: 'Lake Road',
+      city: 'Delhi',
+      state: 'DL',
+      pincode: '110002'
+    },
+    items: [
+      { product: 'Desk Lamp', price: 799, quantity: 1 },
+      { product: 'Chair', price: 2499, quantity: 1 },
+      { product: 'Table', price: 3499, quantity: 1 }
+    ],
+    total_amount: 6797,
+    payment_status: 'Paid',
+    delivery_status: 'Delivered'
+  }
+]
+OnlineStore> db.orders.find(
+...   { "shipping_address.city": { $in: ["Mumbai", "Delhi"] } },
+...   { _id: 0, order_id: 1, "shipping_address.city": 1, order_date: 1 }
+... ).sort({ order_date: -1 })
+...
+[
+  {
+    order_id: 'ORD1005',
+    order_date: '2024-06-06',
+    shipping_address: { city: 'Delhi' }
+  },
+  {
+    order_id: 'ORD1002',
+    order_date: '2024-06-03',
+    shipping_address: { city: 'Delhi' }
+  },
+  {
+    order_id: 'ORD1001',
+    order_date: '2024-06-01',
+    shipping_address: { city: 'Mumbai' }
+  }
+]
+OnlineStore> db.orders.aggregate([
+...   { $group: { _id: "$payment_status", count: { $sum: 1 } } }
+... ])
+...
+[ { _id: 'Paid', count: 4 }, { _id: 'Pending', count: 1 } ]
+OnlineStore> db.orders.aggregate([
+...   { $match: { delivery_status: "Delivered" } },
+...   { $group: { _id: null, total_revenue: { $sum: "$total_amount" } } }
+... ])
+...
+[ { _id: null, total_revenue: 8894 } ]
+OnlineStore> db.orders.updateMany(
+...   { $expr: { $gt: [{ $size: "$items" }, 3] } },
+...   { $set: { priority: "High" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+OnlineStore> db.orders.aggregate([
+...   { $unwind: "$items" },
+...   { $group: {
+...     _id: "$items.product",
+...     total_quantity: { $sum: "$items.quantity" }
+...   }}
+... ])
+...
+[
+  { _id: 'Table', total_quantity: 1 },
+  { _id: 'Monitor', total_quantity: 1 },
+  { _id: 'Notebook', total_quantity: 5 },
+  { _id: 'Laptop Bag', total_quantity: 1 },
+  { _id: 'Desk Lamp', total_quantity: 1 },
+  { _id: 'Wireless Mouse', total_quantity: 2 },
+  { _id: 'Pen Drive', total_quantity: 3 },
+  { _id: 'Chair', total_quantity: 1 },
+  { _id: 'Keyboard', total_quantity: 1 }
+]
+OnlineStore> db.orders.updateOne(
+...   { order_id: "ORD1001" },
+...   {
+...     $push: {
+...       items: { product: "USB Cable", price: 199, quantity: 1 }
+...     }
+...   }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+OnlineStore> db.orders.updateMany(
+...   {},
+...   { $rename: { "customer.phone": "customer.mobile_number" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+OnlineStore> db.orders.createIndex({ "customer.email": 1 })
+customer.email_1
+OnlineStore> mongoexport --db OnlineStore --collection orders --out orders.json
+Uncaught:
+SyntaxError: Missing semicolon. (1:14)
+
+> 1 | mongoexport --db OnlineStore --collection orders --out orders.json
+    |               ^
+  2 |
+
+OnlineStore> mongoexport --db=OnlineStore --collection=orders --out=orders.json
+Uncaught:
+SyntaxError: Missing semicolon. (1:14)
+
+> 1 | mongoexport --db=OnlineStore --collection=orders --out=orders.json
+    |               ^
+  2 |
+
+OnlineStore> db.orders.aggregate([
+...   { $match: { delivery_status: "Delivered" } },
+...   { $group: { _id: null, total_revenue: { $sum: "$total_amount" } } }
+... ])
+...
+[ { _id: null, total_revenue: 8894 } ]
+OnlineStore> db.orders.updateMany(
+...   { $expr: { $gt: [{ $size: "$items" }, 3] } },
+...   { $set: { priority: "High" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+OnlineStore> db.orders.aggregate([
+...   { $unwind: "$items" },
+...   { $group: {
+...     _id: "$items.product",
+...     total_quantity: { $sum: "$items.quantity" }
+...   }}
+... ])
+...
+[
+  { _id: 'Keyboard', total_quantity: 1 },
+  { _id: 'Monitor', total_quantity: 1 },
+  { _id: 'Table', total_quantity: 1 },
+  { _id: 'Laptop Bag', total_quantity: 1 },
+  { _id: 'USB Cable', total_quantity: 1 },
+  { _id: 'Notebook', total_quantity: 5 },
+  { _id: 'Desk Lamp', total_quantity: 1 },
+  { _id: 'Pen Drive', total_quantity: 3 },
+  { _id: 'Wireless Mouse', total_quantity: 2 },
+  { _id: 'Chair', total_quantity: 1 }
+]
+OnlineStore> db.orders.updateOne(
+...   { order_id: "ORD1001" },
+...   {
+...     $push: {
+...       items: { product: "USB Cable", price: 199, quantity: 1 }
+...     }
+...   }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+OnlineStore> db.orders.updateMany(
+...   {},
+...   { $rename: { "customer.phone": "customer.mobile_number" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+OnlineStore> db.orders.createIndex({ "customer.email": 1 })
+customer.email_1
+OnlineStore>
+
+
+Microsoft Windows [Version 10.0.26100.4202]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\sjlak>mongoexport --version
+mongoexport version: 100.12.2
+git version: f76a3ae4029780f61c49cbd39b7336f8d9c30ed0
+Go version: go1.23.8
+   os: windows
+   arch: amd64
+   compiler: gc
+
+C:\Users\sjlak>mongoexport --db=OnlineStore --collection=orders --out=orders.json
+2025-06-09T14:53:01.543+0530    connected to: mongodb://localhost/
+2025-06-09T14:53:01.546+0530    exported 5 records
+
+C:\Users\sjlak>
+
+
+

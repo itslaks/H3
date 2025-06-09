@@ -1,0 +1,52 @@
+
+📚 Scenario: Student Management System
+
+You are working as a developer in a school that wants to maintain student information in MongoDB.
+
+The `students` collection includes:
+{
+  "name": "Amit Kumar",
+  "age": 17,
+  "gender": "Male",
+  "grade": "11th",
+  "subjects": ["Math", "Physics", "English"],
+  "marks": { "Math": 82, "Physics": 91, "English": 75 },
+  "address": {
+    "city": "Delhi",
+    "pincode": "110001"
+  }
+}
+
+✅ Problem Statement and Tasks
+
+Q1. Insert 5 student records
+- Add at least 5 students with different:
+  - ages
+  - subjects
+  - marks
+  - cities
+- Use insertMany.
+
+Q2. Find all students who take “Math” as a subject
+- Query the array field subjects.
+- Expected fields: name, grade, and subjects.
+
+Q3. Find students from city "Delhi" scoring more than 85 in Physics
+- Query embedded fields and condition on nested field (marks.Physics).
+- Expected fields: name, marks, and address.city.
+
+Q4. Sort all students by English marks (descending) and show top 3
+- Use .sort() and .limit().
+- Project only name, subject, and marks.
+
+Q5. Group students by city and count how many are from each
+- Use aggregation framework with $group.
+
+Q6. Update all students who scored less than 40 in any subject
+- Add a new field: "status": "Needs Improvement"
+- Hint: Use $or to check each subject's score in marks.
+
+Bonus Challenge
+
+Q7. Calculate average marks of all students in each subject
+- Use $group and $avg in aggregation for marks.Math, marks.Physics, etc.
